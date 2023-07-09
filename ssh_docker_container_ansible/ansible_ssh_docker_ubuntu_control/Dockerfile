@@ -6,6 +6,9 @@ FROM ubuntu:16.04
 # needed for apt-add-repository command
 RUN apt-get update 
 # RUN apt-get install sudo 
+# RUN apt install python3 python3-pip -y
+# RUN pip install --upgrade pip
+# RUN pip3 install ansible
 RUN apt install software-properties-common -y
 RUN apt-add-repository ppa:ansible/ansible
 RUN apt install ansible -y

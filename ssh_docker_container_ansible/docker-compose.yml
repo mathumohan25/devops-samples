@@ -1,0 +1,41 @@
+version: '3'
+services:
+  control:
+    # Path to dockerfile.
+    # '.' represents the current directory in which
+    # docker-compose.yml is present.
+    build: ./ansible_ssh_docker_ubuntu_control
+    volumes:
+      - type: volume
+        source: control_volume
+        target: /ansible_scripts
+        volume:
+          nocopy: true
+     #- control_volume: /ansible_scripts
+    networks:
+      ansible_network:
+        ipv4_address: 172.16.238.10
+  target_1:
+    build: ./ssh_docker_ubuntu_target
+    networks:
+      ansible_network:
+        ipv4_address: 172.16.238.11
+  target_2:
+    build: ./ssh_docker_ubuntu_target
+    networks:
+      ansible_network:
+        ipv4_address: 172.16.238.12
+networks:
+  ansible_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+volumes:
+  #  control_volume: ./ansible_scripts
+  control_volume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './ansible_scripts'
